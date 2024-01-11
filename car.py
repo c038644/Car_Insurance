@@ -149,7 +149,7 @@ with st.spinner('Updating Report...'):
 
 
     if Customer:
-        Selected_Customer = all_data.loc[all_data['policy_number'] == Customer]
+        Selected_Customer = data_df.loc[data_df['policy_number'] == Customer]
         st.write(Selected_Customer)
         Selected_Customer.to_csv("files/selection.csv")
         #local = requests.get("local").json()
