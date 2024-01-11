@@ -143,10 +143,7 @@ with st.spinner('Updating Report...'):
 
     data_df['fraud_reported'] = data_df['fraud_reported'].astype(int)
 
-    cleaned_df = pd.get_dummies(data_df)
-
     Customer = st.selectbox('Select Customer', Customer_ID, help = 'Filter report to show only one customer')
-
 
     if Customer:
         Selected_Customer = data_df.loc[data_df['policy_number'] == Customer]
@@ -156,6 +153,71 @@ with st.spinner('Updating Report...'):
         #st.json(local) 
     
     #local()
+
+    
+    cleaned_df = pd.get_dummies(data_df)
+    feature_list = list(cleaned_df.columns)
+
+    X = cleaned_df.drop(['fraud_reported'], axis=1).values
+    y = cleaned_df['fraud_reported'].values
+
+    data = Selected_Customer.drop(['fraud_reported'], axis=1).values
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
+
+    clf = GradientBoostingClassifier(random_state=RANDOM_STATE,
+                                 criterion=GBC_METRIC,
+                                 verbose=False,
+                                   max_depth=45,
+                                   max_features='sqrt',
+                                   min_samples_leaf=2,
+                                   min_samples_split=2,
+                                   n_estimators=836)
+# Best Custom Score: 0.7853282025046155
+
+# Hyperparameter Tuning: {'clf__max_depth': 45, 'clf__max_features': 'sqrt', 'clf__min_samples_leaf': 2, 'clf__min_samples_split': 2, 'clf__n_estimators': 836}
+
+    score = clf.fit(X_train, y_train).predict(data)
+    print(score)
+
+    Fraud_risk_test = np.max(clf.predict_proba(data))
+    print(Fraud_risk_test)
+
+    if score==1:
+      Fraud_risk_score=Fraud_risk_test
+
+    else:
+      Fraud_risk_score=(1-Fraud_risk_test)
+
+  # Get numerical feature importances
+    importances = list(clf.feature_importances_)
+
+  # List of tuples with variable and importance
+    feature_importances = [(feature, round(importance, 2)) for feature, importance in zip(feature_list, importances)]
+
+  # Sort the feature importances by most important first
+    feature_importances = sorted(feature_importances, key = lambda x: x[1], reverse = True)
+
+  #Ten most important features
+    ten_most_important = feature_importances[0:10]
+
+    ten_most_important_df = pd.DataFrame(ten_most_important)
+
+    ten_most_important_df.columns = ['Feature', 'Importance']
+
+    ten_most_important_df['Fraud_risk Score'] = Fraud_risk_score
+
+    ten_most_important_df['Claim Accepted?'] = None
+
+    if Fraud_risk_score<=0.68:
+      ten_most_important_df['Claim Accepted?'] = ten_most_important_df['Claim Accepted?'].fillna('Yes')
+    elif Fraud_risk_score<=0.88:
+      ten_most_important_df['Claim Accepted?'] = ten_most_important_df['Claim Accepted?'].fillna('Risky')
+    else:
+      ten_most_important_df['Claim Accepted?'] = ten_most_important_df['Claim Accepted?'].fillna('No')
+
+  # Print out the feature and importances
+    print(ten_most_important_df)
 
     g1, g2, g3 = st.columns((1,1,1))
 
