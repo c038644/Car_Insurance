@@ -114,7 +114,7 @@ if Selector == 'Database Search':
 
     global_graph_df = pd.read_csv("files/global_features.csv")
     
-    fig = px.bar(global_graph_df, x = 'Feature', y='Importance')
+    fig = px.bar(global_graph_df, x = 'Feature', y='Feature Importance')
     
     fig.update_layout(title_text="Global Features Graph",title_x=0,margin= dict(l=0,r=10,b=10,t=30), yaxis_title=None, xaxis_title=None)
     
