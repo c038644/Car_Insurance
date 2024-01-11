@@ -198,6 +198,7 @@ elif Selector == 'New Customer Search':
     #Selected_Customer['insured_hobbies'] = insured_hobbies
 
     Selected_Customer = data_df.iloc[random_index]
+    st.write(Selected_Customer)
 
     if insured_hobbies:
 
