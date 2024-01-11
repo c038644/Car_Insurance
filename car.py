@@ -75,7 +75,7 @@ with st.spinner('Updating Report...'):
     print(score)
 
     Fraud_risk_test = np.max(clf.predict_proba(data))
-    print(Fraud_risk_test)
+    st.write(Fraud_risk_test)
 
     if score==1:
       Fraud_risk_score=Fraud_risk_test
