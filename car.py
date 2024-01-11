@@ -135,8 +135,15 @@ with st.spinner('Updating Report...'):
     Customer_ID = pd.read_csv("files/policy_number.csv")
     Customer_ID = Customer_ID.drop(columns=['Unnamed: 0'])
     
-    all_data = pd.read_csv("files/insurance_claims.csv")
-    all_data = all_data.drop(columns=['Unnamed: 0'])
+    data_df = pd.read_csv("files/insurance_claims.csv")
+    data_df = data_df.drop(columns=['_c39', 'incident_location', 'policy_bind_date', 'incident_date'])
+
+    data_df['fraud_reported'] = data_df['fraud_reported'].str.replace('N','0')
+    data_df['fraud_reported'] = data_df['fraud_reported'].str.replace('Y','1')
+
+    data_df['fraud_reported'] = data_df['fraud_reported'].astype(int)
+
+    cleaned_df = pd.get_dummies(data_df)
 
     Customer = st.selectbox('Select Customer', Customer_ID, help = 'Filter report to show only one customer')
 
