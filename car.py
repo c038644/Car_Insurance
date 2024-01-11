@@ -156,7 +156,7 @@ with st.spinner('Updating Report...'):
         #st.json(local) 
     
     #local()
-
+    Selected_Customer_cleaned_df = pd.get_dummies(Selected_Customer)
     
     cleaned_df = pd.get_dummies(data_df)
     feature_list = list(cleaned_df.columns)
@@ -164,7 +164,7 @@ with st.spinner('Updating Report...'):
     X = cleaned_df.drop(['fraud_reported'], axis=1).values
     y = cleaned_df['fraud_reported'].values
 
-    data = Selected_Customer.drop(['fraud_reported'], axis=1).values
+    data = Selected_Customer_cleaned_df.drop(['fraud_reported'], axis=1).values
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
 
