@@ -157,7 +157,6 @@ elif Input_Selector == 'New Customer Search':
     Input_vehicle_claim = st.sidebar.number_input('Total Vehicle Claim:')
 
     Selected_Customer = cleaned_df.sample(n=1)
-    st.write(Selected_Customer)
 
     Selected_Customer['age'] = Input_age
     Selected_Customer['incident_hour_of_the_day'] = Input_incident_hour_of_the_day
@@ -169,7 +168,8 @@ elif Input_Selector == 'New Customer Search':
 
     if Input_vehicle_claim:
         Selected_Customer['total_claim_amount'] = Selected_Customer['injury_claim'] + Selected_Customer['property_claim'] + Selected_Customer['vehicle_claim']
-
+        st.write(Selected_Customer)
+     
         ten_most_important_df = machine_learning(cleaned_df, Selected_Customer)
 
         g1, g2 = st.columns((1,1))
