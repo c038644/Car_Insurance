@@ -199,7 +199,7 @@ elif Selector == 'New Customer Search':
 
     Selected_Customer = data_df.iloc[random_index]
     
-    if injury_claim & property_claim & vehicle_claim:
+    if injury_claim and property_claim and vehicle_claim and insured_hobbies:
 
         Selected_Customer['total_claim_amount'] = Selected_Customer['injury_claim'] + Selected_Customer['property_claim'] + Selected_Customer['vehicle_claim']
 
