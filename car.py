@@ -117,6 +117,11 @@ def global_data():
   # Print out the feature and importances 
   return(Global_Features)
 
+#NUMBER_KFOLDS = 2 
+#NUMBER_ITER = 1
+#NUMBER_REPEATS = 1
+RANDOM_STATE = 42
+
 st.set_page_config(page_title='Credit Rating Calculator',  layout='wide', page_icon=':Calculator:')
 
 #this is the header
