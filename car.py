@@ -110,15 +110,17 @@ if Selector == 'Database Search':
         Selected_Customer = cleaned_df.loc[cleaned_df['policy_number'] == Customer]
         st.write(Selected_Customer)
     
-    ten_most_important_df = machine_learning(cleaned_df, Selected_Customer)
-
     g1, g2 = st.columns((1,1))
 
-    fig = px.bar(ten_most_important_df, x = 'Feature', y='Importance')
-        
-    fig.update_layout(title_text="Local Features Graph",title_x=0,margin= dict(l=0,r=10,b=10,t=30), yaxis_title=None, xaxis_title=None)
-        
+    global_graph_df = pd.read_csv("files/global_features.csv")
+    
+    fig = px.bar(global_graph_df, x = 'Feature', y='Importance')
+    
+    fig.update_layout(title_text="Global Features Graph",title_x=0,margin= dict(l=0,r=10,b=10,t=30), yaxis_title=None, xaxis_title=None)
+    
     g1.plotly_chart(fig, use_container_width=True)
+
+    ten_most_important_df = machine_learning(cleaned_df, Selected_Customer)
 
     fig2 = go.Figure(go.Indicator(
             mode = "gauge+number+delta",
@@ -159,7 +161,7 @@ elif Selector == 'New Customer Search':
     age = st.sidebar.number_input('Age:', value=0, step=1, format="%d")
     incident_severity = st.sidebar.selectbox('Incident Severity', ("Choose an option:", 'Trivial Damage', 'Minor Damage', 'Major Damage', 'Total Loss'), placeholder = "Choose an option")
     collision_type = st.sidebar.selectbox('Collision Type', ("Choose an option:", 'Front Collision', 'Side Collision', 'Rear Collision', 'Other'), placeholder = "Choose an option")
-    number_of_vehicles_involved = st.sidebar.number_input('Number of Vehicles Involved:')
+    number_of_vehicles_involved = st.sidebar.number_input('Number of Vehicles Involved:', value=0, step=1, format="%d")
     witnesses = st.sidebar.number_input('Number of Witnesses:', value=0, step=1, format="%d")
     injury_claim = st.sidebar.number_input('Total Injury Claim:')
     property_claim = st.sidebar.number_input('Total Property Claim:')
@@ -189,9 +191,6 @@ elif Selector == 'New Customer Search':
         Selected_Customer = cleaned_df.iloc[random_index].to_frame().T
 
         Selected_Customer['total_claim_amount'] = Selected_Customer['injury_claim'] + Selected_Customer['property_claim'] + Selected_Customer['vehicle_claim']
-
-        st.write(Selected_Customer)
-        st.write(Selected_Customer.shape)
 
         ten_most_important_df = machine_learning(cleaned_df, Selected_Customer)
 
