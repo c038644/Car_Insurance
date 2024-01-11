@@ -121,6 +121,7 @@ def global_data():
 #NUMBER_ITER = 1
 #NUMBER_REPEATS = 1
 RANDOM_STATE = 42
+GBC_METRIC = 'squared_error'
 
 st.set_page_config(page_title='Credit Rating Calculator',  layout='wide', page_icon=':Calculator:')
 
