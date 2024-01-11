@@ -111,7 +111,7 @@ with st.spinner('Updating Report...'):
       ten_most_important_df['Claim Accepted?'] = ten_most_important_df['Claim Accepted?'].fillna('No')
 
   # Print out the feature and importances
-    print(ten_most_important_df)
+    st.write(ten_most_important_df)
 
     g1, g2, g3 = st.columns((1,1,1))
 
