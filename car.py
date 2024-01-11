@@ -166,42 +166,41 @@ elif Input_Selector == 'New Customer Search':
     Selected_Customer['property_claim'] = Input_property_claim
     Selected_Customer['vehicle_claim'] = Input_vehicle_claim
 
-    Selected_Customer['total_claim_amount'] = Selected_Customer['injury_claim'] + Selected_Customer['property_claim'] + Selected_Customer['vehicle_claim']
+    if Input_vehicle_claim:
+        Selected_Customer['total_claim_amount'] = Selected_Customer['injury_claim'] + Selected_Customer['property_claim'] + Selected_Customer['vehicle_claim']
 
-    ten_most_important_df = machine_learning(cleaned_df, Selected_Customer)
+        ten_most_important_df = machine_learning(cleaned_df, Selected_Customer)
 
-    g1, g2 = st.columns((1,1))
+        g1, g2 = st.columns((1,1))
 
-    fig = px.bar(ten_most_important_df, x = 'Feature', y='Importance')
-        
-    fig.update_layout(title_text="Local Features Graph",title_x=0,margin= dict(l=0,r=10,b=10,t=30), yaxis_title=None, xaxis_title=None)
-        
-    g1.plotly_chart(fig, use_container_width=True)
+        fig = px.bar(ten_most_important_df, x = 'Feature', y='Importance')
+            
+        fig.update_layout(title_text="Local Features Graph",title_x=0,margin= dict(l=0,r=10,b=10,t=30), yaxis_title=None, xaxis_title=None)
+            
+        g1.plotly_chart(fig, use_container_width=True)
 
-    fig2 = go.Figure(go.Indicator(
-            mode = "gauge+number+delta",
-            value = ten_most_important_df.iat[0,2],
-            domain = {'x': [0, 1], 'y': [0, 1]},
-            title = {'text': "Fraud Risk Rating", 'font': {'size': 24}},
-            gauge = {
-                'axis': {'range': [0, 1], 'tickwidth': 1, 'tickcolor': "darkblue"},
-                'bar': {'color': "black"},
-                'bgcolor': "white",
-                'borderwidth': 2,
-                'bordercolor': "gray",
-                'steps': [
-                    {'range': [0.88, 1], 'color': 'red'},
-                    {'range': [0.68, 0.88], 'color': 'orange'},
-                    {'range': [0, 0.68], 'color': 'green'}],
-                'threshold': {
-                    'line': {'color': "blue", 'width': 4},
-                    'thickness': 0.75,
-                    'value': 0.31}}))
+        fig2 = go.Figure(go.Indicator(
+                mode = "gauge+number+delta",
+                value = ten_most_important_df.iat[0,2],
+                domain = {'x': [0, 1], 'y': [0, 1]},
+                title = {'text': "Fraud Risk Rating", 'font': {'size': 24}},
+                gauge = {
+                    'axis': {'range': [0, 1], 'tickwidth': 1, 'tickcolor': "darkblue"},
+                    'bar': {'color': "black"},
+                    'bgcolor': "white",
+                    'borderwidth': 2,
+                    'bordercolor': "gray",
+                    'steps': [
+                        {'range': [0.88, 1], 'color': 'red'},
+                        {'range': [0.68, 0.88], 'color': 'orange'},
+                        {'range': [0, 0.68], 'color': 'green'}],
+                    'threshold': {
+                        'line': {'color': "blue", 'width': 4},
+                        'thickness': 0.75,
+                        'value': 0.31}}))
 
-    fig2.update_layout(paper_bgcolor = "lavender", font = {'color': "darkblue", 'family': "Arial"})
+        fig2.update_layout(paper_bgcolor = "lavender", font = {'color': "darkblue", 'family': "Arial"})
 
-    g2.plotly_chart(fig2, use_container_width=True) 
-
-    g2.plotly_chart(fig2, use_container_width=True) 
+        g2.plotly_chart(fig2, use_container_width=True) 
 
     
