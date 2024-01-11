@@ -22,7 +22,7 @@ t1, t2 = st.columns((0.07,1))
 t2.title("Car Insurance Fraud Calculator")
 t2.markdown("Powered with Machine Learning")
 
-Input_Selector = st.sidebar.selectbox('Select Input Option', ("Choose an option:", 'Database Search', 'New Customer Search'), placeholder = "Choose an option")
+Selector = st.sidebar.selectbox('Select Input Option', ("Choose an option:", 'Database Search', 'New Customer Search'), placeholder = "Choose an option")
 
 Customer_ID = pd.read_csv("files/policy_number.csv")
 Customer_ID = Customer_ID.drop(columns=['Unnamed: 0'])
@@ -102,7 +102,7 @@ def machine_learning(cleaned_df, Selected_Customer):
 
     return ten_most_important_df    
 
-if Input_Selector == 'Database Search':
+if Selector == 'Database Search':
 
     Customer = st.selectbox('Select Customer', Customer_ID, help = 'Filter report to show only one customer')
 
@@ -144,32 +144,39 @@ if Input_Selector == 'Database Search':
 
     g2.plotly_chart(fig2, use_container_width=True) 
 
-elif Input_Selector == 'New Customer Search':
+elif Selector == 'New Customer Search':
         
     #Create number input boxes
-    Input_age = st.sidebar.number_input('Age:')
-    Input_incident_city = st.sidebar.text_input('Incident City:')
-    Input_incident_hour_of_the_day = st.sidebar.number_input('Time of Incident:')
-    Input_number_of_vehicles_involved = st.sidebar.number_input('Number of Vehicles Involved:')
-    Input_witnesses = st.sidebar.number_input('Number of Witnesses:')
-    Input_injury_claim = st.sidebar.number_input('Total Injury Claim:')
-    Input_property_claim = st.sidebar.number_input('Total Property Claim:')
-    Input_vehicle_claim = st.sidebar.number_input('Total Vehicle Claim:')
+    gender = st.sidebar.number_input('Gender:')
+    age = st.sidebar.number_input('Age:')
+    incident_city = st.sidebar.text_input('Incident City:')
+    incident_severity = st.sidebar.selectbox('Select Input Option', ("Choose an option:", 'Trivial Damage', 'Minor Damage', 'Major Damage', 'Total Loss'), placeholder = "Choose an option")
+    collision_type = st.sidebar.selectbox('Select Input Option', ("Choose an option:", 'Front Collision', 'Side Collision', 'Rear Collision', '?'), placeholder = "Choose an option")
+    number_of_vehicles_involved = st.sidebar.number_input('Number of Vehicles Involved:')
+    witnesses = st.sidebar.number_input('Number of Witnesses:')
+    injury_claim = st.sidebar.number_input('Total Injury Claim:')
+    property_claim = st.sidebar.number_input('Total Property Claim:')
+    vehicle_claim = st.sidebar.number_input('Total Vehicle Claim:')
+    insured_hobbies = st.sidebar.selectbox('Select Input Option', ("Choose an option:", 'reading', 'exercise', 'paintball', 'bungie-jumping', 'movies', 'golf', 
+                                                                   'camping','kayaking','yachting', 'hiking', 'video-games','skydiving', 'base-jumping', 'board-games',
+                                                                    'polo', 'chess', 'dancing', 'sleeping', 'cross-fit', 'basketball'), placeholder = "Choose an option")
 
     Selected_Customer = cleaned_df.sample(n=1)
 
-    Selected_Customer['age'] = Input_age
-    Selected_Customer['incident_hour_of_the_day'] = Input_incident_hour_of_the_day
-    Selected_Customer['number_of_vehicles_involved'] = Input_number_of_vehicles_involved
-    Selected_Customer['witnesses'] = Input_witnesses
-    Selected_Customer['injury_claim'] = Input_injury_claim
-    Selected_Customer['property_claim'] = Input_property_claim
-    Selected_Customer['vehicle_claim'] = Input_vehicle_claim
+    Selected_Customer['insured_sex'] = gender
+    Selected_Customer['age'] = age
+    Selected_Customer['incident_severity'] = incident_severity
+    Selected_Customer['collision_type'] = collision_type
+    Selected_Customer['number_of_vehicles_involved'] = number_of_vehicles_involved
+    Selected_Customer['witnesses'] = witnesses
+    Selected_Customer['injury_claim'] = injury_claim
+    Selected_Customer['property_claim'] = property_claim
+    Selected_Customer['vehicle_claim'] = vehicle_claim
+    Selected_Customer['insured_hobbies'] = insured_hobbies
 
-    if Input_vehicle_claim:
+    if vehicle_claim:
         Selected_Customer['total_claim_amount'] = Selected_Customer['injury_claim'] + Selected_Customer['property_claim'] + Selected_Customer['vehicle_claim']
-        st.write(Selected_Customer)
-     
+
         ten_most_important_df = machine_learning(cleaned_df, Selected_Customer)
 
         g1, g2 = st.columns((1,1))
@@ -199,6 +206,10 @@ elif Input_Selector == 'New Customer Search':
                         'line': {'color': "blue", 'width': 4},
                         'thickness': 0.75,
                         'value': 0.31}}))
+
+        fig2.update_layout(paper_bgcolor = "lavender", font = {'color': "darkblue", 'family': "Arial"})
+
+        g2.plotly_chart(fig2, use_container_width=True) 
 
         fig2.update_layout(paper_bgcolor = "lavender", font = {'color': "darkblue", 'family': "Arial"})
 
