@@ -148,13 +148,13 @@ elif Input_Selector == 'New Customer Search':
         
     #Create number input boxes
     Input_age = st.sidebar.number_input('Age:')
-    Input_incident_city = st.sidebar.number_input('Incident City:', incident_city)
-    Input_incident_hour_of_the_day = st.sidebar.number_input('Time of Incident:', incident_hour_of_the_day)
-    Input_number_of_vehicles_involved = st.sidebar.number_input('Number of Vehicles Involved:', number_of_vehicles_involved)
-    Input_witnesses = st.sidebar.number_input('Number of Witnesses:', witnesses)
-    Input_injury_claim = st.sidebar.number_input('Total Injury Claim:', injury_claim)
-    Input_property_claim = st.sidebar.number_input('Total Property Claim:', property_claim)
-    Input_vehicle_claim = st.sidebar.number_input('Total Vehicle Claim:', vehicle_claim)
+    Input_incident_city = st.sidebar.number_input('Incident City:')
+    Input_incident_hour_of_the_day = st.sidebar.number_input('Time of Incident:')
+    Input_number_of_vehicles_involved = st.sidebar.number_input('Number of Vehicles Involved:')
+    Input_witnesses = st.sidebar.number_input('Number of Witnesses:')
+    Input_injury_claim = st.sidebar.number_input('Total Injury Claim:')
+    Input_property_claim = st.sidebar.number_input('Total Property Claim:')
+    Input_vehicle_claim = st.sidebar.number_input('Total Vehicle Claim:')
 
     Selected_Customer = cleaned_df.sample(n=1)
 
