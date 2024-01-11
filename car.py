@@ -145,28 +145,31 @@ if Selector == 'Database Search':
     g2.plotly_chart(fig2, use_container_width=True) 
 
 elif Selector == 'New Customer Search':
-    
-    data_df = data_df.copy()
-         
-    #Create number input boxes
-    gender = st.sidebar.selectbox('Select Input Option', ("Choose an option:", 'Female', 'Male'), placeholder = "Choose an option")
-    age = st.sidebar.number_input('Age:')
-    incident_severity = st.sidebar.selectbox('Select Input Option', ("Choose an option:", 'Trivial Damage', 'Minor Damage', 'Major Damage', 'Total Loss'), placeholder = "Choose an option")
-    collision_type = st.sidebar.selectbox('Select Input Option', ("Choose an option:", 'Front Collision', 'Side Collision', 'Rear Collision', '?'), placeholder = "Choose an option")
-    number_of_vehicles_involved = st.sidebar.number_input('Number of Vehicles Involved:')
-    witnesses = st.sidebar.number_input('Number of Witnesses:')
-    injury_claim = st.sidebar.number_input('Total Injury Claim:')
-    property_claim = st.sidebar.number_input('Total Property Claim:')
-    vehicle_claim = st.sidebar.number_input('Total Vehicle Claim:')
-    insured_hobbies = st.sidebar.selectbox('Select Input Option', ("Choose an option:", 'reading', 'exercise', 'paintball', 'bungie-jumping', 'movies', 'golf', 
-                                                                   'camping','kayaking','yachting', 'hiking', 'video-games','skydiving', 'base-jumping', 'board-games',
-                                                                    'polo', 'chess', 'dancing', 'sleeping', 'cross-fit', 'basketball'), placeholder = "Choose an option")
 
+    data_df = data_df.copy()
+    
     # Get the number of rows in the DataFrame
     num_rows = len(data_df)
 
     # Generate a random index within the range of the number of rows
     random_index = random.randint(0, num_rows - 1)
+        
+    #Create number input boxes
+    gender = st.sidebar.selectbox('Gender', ("Choose an option:", 'Female', 'Male'), placeholder = "Choose an option")
+    age = st.sidebar.number_input('Age:', value=0, step=1, format="%d")
+    incident_severity = st.sidebar.selectbox('Incident Severity', ("Choose an option:", 'Trivial Damage', 'Minor Damage', 'Major Damage', 'Total Loss'), placeholder = "Choose an option")
+    collision_type = st.sidebar.selectbox('Collision Type', ("Choose an option:", 'Front Collision', 'Side Collision', 'Rear Collision', 'Other'), placeholder = "Choose an option")
+    number_of_vehicles_involved = st.sidebar.number_input('Number of Vehicles Involved:')
+    witnesses = st.sidebar.number_input('Number of Witnesses:', value=0, step=1, format="%d")
+    injury_claim = st.sidebar.number_input('Total Injury Claim:')
+    property_claim = st.sidebar.number_input('Total Property Claim:')
+    vehicle_claim = st.sidebar.number_input('Total Vehicle Claim:')
+    insured_hobbies = st.sidebar.selectbox('Insured Hobbies', ("Choose an option:", 'reading', 'exercise', 'paintball', 'bungie-jumping', 'movies', 'golf', 
+                                                                   'camping','kayaking','yachting', 'hiking', 'video-games','skydiving', 'base-jumping', 'board-games',
+                                                                    'polo', 'chess', 'dancing', 'sleeping', 'cross-fit', 'basketball'), placeholder = "Choose an option")
+
+    if collision_type == 'Other':
+        collision_type = '?'
 
     data_df['insured_sex'].iloc[random_index] = gender
     data_df['age'].iloc[random_index] = age
@@ -179,7 +182,7 @@ elif Selector == 'New Customer Search':
     data_df['vehicle_claim'].iloc[random_index] = vehicle_claim
     data_df['insured_hobbies'].iloc[random_index] = insured_hobbies
     
-    if insured_hobbies and injury_claim and property_claim and vehicle_claim:
+    if insured_hobbies != 'Choose an option:':
 
         cleaned_df = pd.get_dummies(data_df)
     
