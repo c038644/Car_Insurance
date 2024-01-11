@@ -112,8 +112,6 @@ with st.spinner('Updating Report...'):
 
     g1, g2, g3 = st.columns((1,1,1))
 
-    st.write(ten_most_important_df)
-
     fig = px.bar(ten_most_important_df, x = 'Feature', y='Importance')
     
     fig.update_layout(title_text="Local Features Graph",title_x=0,margin= dict(l=0,r=10,b=10,t=30), yaxis_title=None, xaxis_title=None)
@@ -124,7 +122,7 @@ with st.spinner('Updating Report...'):
         mode = "gauge+number+delta",
         value = ten_most_important_df.iat[0,2],
         domain = {'x': [0, 1], 'y': [0, 1]},
-        title = {'text': "Credit Rating", 'font': {'size': 24}},
+        title = {'text': "Fraud Risk Rating", 'font': {'size': 24}},
         gauge = {
             'axis': {'range': [0, 1], 'tickwidth': 1, 'tickcolor': "darkblue"},
             'bar': {'color': "black"},
