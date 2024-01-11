@@ -148,7 +148,7 @@ elif Input_Selector == 'New Customer Search':
         
     #Create number input boxes
     Input_age = st.sidebar.number_input('Age:')
-    Input_incident_city = st.sidebar.number_input('Incident City:')
+    Input_incident_city = st.sidebar.text_input('Incident City:')
     Input_incident_hour_of_the_day = st.sidebar.number_input('Time of Incident:')
     Input_number_of_vehicles_involved = st.sidebar.number_input('Number of Vehicles Involved:')
     Input_witnesses = st.sidebar.number_input('Number of Witnesses:')
