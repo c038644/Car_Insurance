@@ -45,7 +45,7 @@ def machine_learning(cleaned_df, Selected_Customer):
         X = cleaned_df.drop(['fraud_reported'], axis=1).values
         y = cleaned_df['fraud_reported'].values
             
-        data = Selected_Customer.drop(['fraud_reported']).values#, axis=1).values
+        data = Selected_Customer.drop(['fraud_reported'], axis=1).values
 
         X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
 
@@ -187,6 +187,9 @@ elif Selector == 'New Customer Search':
         Selected_Customer = data_df.iloc[random_index]
 
         Selected_Customer['total_claim_amount'] = Selected_Customer['injury_claim'] + Selected_Customer['property_claim'] + Selected_Customer['vehicle_claim']
+
+        st.write(Selected_Customer)
+        st.write(Selected_Customer.shape)
 
         ten_most_important_df = machine_learning(cleaned_df, Selected_Customer)
 
