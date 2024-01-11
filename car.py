@@ -180,8 +180,8 @@ elif Selector == 'New Customer Search':
     if insured_hobbies and injury_claim and property_claim and vehicle_claim:
 
         cleaned_df = pd.get_dummies(data_df)
-
-        Selected_Customer = cleaned_df.iloc[random_index]
+    
+        Selected_Customer = cleaned_df.iloc[random_index].to_frame().T
 
         Selected_Customer['total_claim_amount'] = Selected_Customer['injury_claim'] + Selected_Customer['property_claim'] + Selected_Customer['vehicle_claim']
 
