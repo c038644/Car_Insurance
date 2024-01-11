@@ -145,7 +145,9 @@ if Selector == 'Database Search':
     g2.plotly_chart(fig2, use_container_width=True) 
 
 elif Selector == 'New Customer Search':
-        
+    
+    data_df = data_df.copy()
+         
     #Create number input boxes
     gender = st.sidebar.selectbox('Select Input Option', ("Choose an option:", 'Female', 'Male'), placeholder = "Choose an option")
     age = st.sidebar.number_input('Age:')
