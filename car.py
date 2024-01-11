@@ -157,6 +157,7 @@ elif Input_Selector == 'New Customer Search':
     Input_vehicle_claim = st.sidebar.number_input('Total Vehicle Claim:')
 
     Selected_Customer = cleaned_df.sample(n=1)
+    st.write(Selected_Customer)
 
     Selected_Customer['age'] = Input_age
     Selected_Customer['incident_hour_of_the_day'] = Input_incident_hour_of_the_day
