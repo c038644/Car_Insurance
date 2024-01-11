@@ -151,11 +151,11 @@ with st.spinner('Updating Report...'):
     if Customer:
         Selected_Customer = data_df.loc[data_df['policy_number'] == Customer]
         st.write(Selected_Customer)
-        Selected_Customer.to_csv("files/selection.csv")
+        #Selected_Customer.to_csv("files/selection.csv")
         #local = requests.get("local").json()
         #st.json(local) 
     
-    local()
+    #local()
 
     g1, g2, g3 = st.columns((1,1,1))
 
