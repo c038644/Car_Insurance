@@ -45,7 +45,7 @@ def machine_learning(cleaned_df, Selected_Customer):
         X = cleaned_df.drop(['fraud_reported'], axis=1).values
         y = cleaned_df['fraud_reported'].values
             
-        data = Selected_Customer.drop(['fraud_reported']).values#, axis=1).values
+        data = Selected_Customer.drop(['fraud_reported'], axis=1).values
 
         X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
 
@@ -149,7 +149,6 @@ elif Selector == 'New Customer Search':
     #Create number input boxes
     gender = st.sidebar.selectbox('Select Input Option', ("Choose an option:", 'Female', 'Male'), placeholder = "Choose an option")
     age = st.sidebar.number_input('Age:')
-    #incident_city = st.sidebar.text_input('Incident City:')
     incident_severity = st.sidebar.selectbox('Select Input Option', ("Choose an option:", 'Trivial Damage', 'Minor Damage', 'Major Damage', 'Total Loss'), placeholder = "Choose an option")
     collision_type = st.sidebar.selectbox('Select Input Option', ("Choose an option:", 'Front Collision', 'Side Collision', 'Rear Collision', '?'), placeholder = "Choose an option")
     number_of_vehicles_involved = st.sidebar.number_input('Number of Vehicles Involved:')
@@ -166,14 +165,6 @@ elif Selector == 'New Customer Search':
 
     # Generate a random index within the range of the number of rows
     random_index = random.randint(0, num_rows - 1)
-    #Selected_Customer = cleaned_df.sample(n=1)
-
-    #if gender == 'Female':
-    #    Selected_Customer['insured_sex_FEMALE'] = 1
-    #    Selected_Customer['insured_sex_MALE'] = 0
-    #else:
-    #    Selected_Customer['insured_sex_FEMALE'] = 0
-    #    Selected_Customer['insured_sex_MALE'] = 1    
 
     data_df['insured_sex'].iloc[random_index] = gender
     data_df['age'].iloc[random_index] = age
@@ -187,23 +178,15 @@ elif Selector == 'New Customer Search':
     data_df['insured_hobbies'].iloc[random_index] = insured_hobbies
     
     
-        
-    #Selected_Customer['incident_severity'] = incident_severity
-    #Selected_Customer['collision_type'] = collision_type
-    #Selected_Customer['number_of_vehicles_involved'] = number_of_vehicles_involved
-    #Selected_Customer['witnesses'] = witnesses
-    #Selected_Customer['injury_claim'] = injury_claim
-    #Selected_Customer['property_claim'] = property_claim
-    #Selected_Customer['vehicle_claim'] = vehicle_claim
-    #Selected_Customer['insured_hobbies'] = insured_hobbies
-
-    Selected_Customer = data_df.iloc[random_index]
     
-    if injury_claim and property_claim and vehicle_claim and insured_hobbies:
-
-        Selected_Customer['total_claim_amount'] = Selected_Customer['injury_claim'] + Selected_Customer['property_claim'] + Selected_Customer['vehicle_claim']
+    
+    if insured_hobbies and injury_claim and property_claim and vehicle_claim:
 
         cleaned_df = pd.get_dummies(data_df)
+
+        Selected_Customer = data_df.iloc[random_index]
+
+        Selected_Customer['total_claim_amount'] = Selected_Customer['injury_claim'] + Selected_Customer['property_claim'] + Selected_Customer['vehicle_claim']
 
         ten_most_important_df = machine_learning(cleaned_df, Selected_Customer)
 
