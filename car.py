@@ -132,10 +132,10 @@ t2.markdown("with Global and Local Customer Data")
 
 with st.spinner('Updating Report...'):
     
-    Customer_ID = pd.read_csv("files/Customer_ID.csv")
+    Customer_ID = pd.read_csv("files/policy_number.csv")
     Customer_ID = Customer_ID.drop(columns=['Unnamed: 0'])
     
-    all_data = pd.read_csv("files/P7_test_df.csv")
+    all_data = pd.read_csv("files/insurance_claims.csv")
     all_data = all_data.drop(columns=['Unnamed: 0'])
 
     Customer = st.selectbox('Select Customer', Customer_ID, help = 'Filter report to show only one customer')
