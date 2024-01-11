@@ -4,11 +4,8 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-import requests
-import json
 from sklearn.model_selection import train_test_split
-from imblearn.under_sampling import RandomUnderSampler
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import GradientBoostingClassifier
 
 def local():
 
