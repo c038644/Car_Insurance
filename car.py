@@ -6,6 +6,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import GradientBoostingClassifier
+import random
 
 #NUMBER_KFOLDS = 2 
 #NUMBER_ITER = 1
@@ -34,8 +35,6 @@ data_df['fraud_reported'] = data_df['fraud_reported'].str.replace('N','0')
 data_df['fraud_reported'] = data_df['fraud_reported'].str.replace('Y','1')
 
 data_df['fraud_reported'] = data_df['fraud_reported'].astype(int)
-
-cleaned_df = pd.get_dummies(data_df)
 
 def machine_learning(cleaned_df, Selected_Customer):
 
@@ -105,6 +104,7 @@ def machine_learning(cleaned_df, Selected_Customer):
 if Selector == 'Database Search':
 
     Customer = st.selectbox('Select Customer', Customer_ID, help = 'Filter report to show only one customer')
+    cleaned_df = pd.get_dummies(data_df)
 
     if Customer:
         Selected_Customer = cleaned_df.loc[cleaned_df['policy_number'] == Customer]
@@ -147,7 +147,7 @@ if Selector == 'Database Search':
 elif Selector == 'New Customer Search':
         
     #Create number input boxes
-    gender = st.sidebar.number_input('Gender:')
+    gender = st.sidebar.selectbox('Select Input Option', ("Choose an option:", 'Female', 'Male'), placeholder = "Choose an option")
     age = st.sidebar.number_input('Age:')
     incident_city = st.sidebar.text_input('Incident City:')
     incident_severity = st.sidebar.selectbox('Select Input Option', ("Choose an option:", 'Trivial Damage', 'Minor Damage', 'Major Damage', 'Total Loss'), placeholder = "Choose an option")
@@ -161,21 +161,38 @@ elif Selector == 'New Customer Search':
                                                                    'camping','kayaking','yachting', 'hiking', 'video-games','skydiving', 'base-jumping', 'board-games',
                                                                     'polo', 'chess', 'dancing', 'sleeping', 'cross-fit', 'basketball'), placeholder = "Choose an option")
 
-    Selected_Customer = cleaned_df.sample(n=1)
+    # Get the number of rows in the DataFrame
+    num_rows = len(data_df)
 
-    Selected_Customer['insured_sex'] = gender
-    Selected_Customer['age'] = age
-    Selected_Customer['incident_severity'] = incident_severity
-    Selected_Customer['collision_type'] = collision_type
-    Selected_Customer['number_of_vehicles_involved'] = number_of_vehicles_involved
-    Selected_Customer['witnesses'] = witnesses
-    Selected_Customer['injury_claim'] = injury_claim
-    Selected_Customer['property_claim'] = property_claim
-    Selected_Customer['vehicle_claim'] = vehicle_claim
-    Selected_Customer['insured_hobbies'] = insured_hobbies
+    # Generate a random index within the range of the number of rows
+    random_index = random.randint(0, num_rows - 1)
+    #Selected_Customer = cleaned_df.sample(n=1)
 
-    if vehicle_claim:
+    #if gender == 'Female':
+    #    Selected_Customer['insured_sex_FEMALE'] = 1
+    #    Selected_Customer['insured_sex_MALE'] = 0
+    #else:
+    #    Selected_Customer['insured_sex_FEMALE'] = 0
+    #    Selected_Customer['insured_sex_MALE'] = 1    
+
+    data_df['insured_sex'].iloc[random_index] = gender
+    #Selected_Customer['age'] = age
+    #Selected_Customer['incident_severity'] = incident_severity
+    #Selected_Customer['collision_type'] = collision_type
+    #Selected_Customer['number_of_vehicles_involved'] = number_of_vehicles_involved
+    #Selected_Customer['witnesses'] = witnesses
+    #Selected_Customer['injury_claim'] = injury_claim
+    #Selected_Customer['property_claim'] = property_claim
+    #Selected_Customer['vehicle_claim'] = vehicle_claim
+    #Selected_Customer['insured_hobbies'] = insured_hobbies
+
+    Selected_Customer = data_df.iloc[random_index]
+
+    if insured_hobbies:
+
         Selected_Customer['total_claim_amount'] = Selected_Customer['injury_claim'] + Selected_Customer['property_claim'] + Selected_Customer['vehicle_claim']
+
+        cleaned_df = pd.get_dummies(data_df)
 
         ten_most_important_df = machine_learning(cleaned_df, Selected_Customer)
 
@@ -206,10 +223,6 @@ elif Selector == 'New Customer Search':
                         'line': {'color': "blue", 'width': 4},
                         'thickness': 0.75,
                         'value': 0.31}}))
-
-        fig2.update_layout(paper_bgcolor = "lavender", font = {'color': "darkblue", 'family': "Arial"})
-
-        g2.plotly_chart(fig2, use_container_width=True) 
 
         fig2.update_layout(paper_bgcolor = "lavender", font = {'color': "darkblue", 'family': "Arial"})
 
