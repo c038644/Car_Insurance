@@ -149,17 +149,17 @@ elif Selector == 'New Customer Search':
     #Create number input boxes
     gender = st.sidebar.selectbox('Select Input Option', ("Choose an option:", 'Female', 'Male'), placeholder = "Choose an option")
     age = st.sidebar.number_input('Age:')
-    incident_city = st.sidebar.text_input('Incident City:')
+    #incident_city = st.sidebar.text_input('Incident City:')
     incident_severity = st.sidebar.selectbox('Select Input Option', ("Choose an option:", 'Trivial Damage', 'Minor Damage', 'Major Damage', 'Total Loss'), placeholder = "Choose an option")
     collision_type = st.sidebar.selectbox('Select Input Option', ("Choose an option:", 'Front Collision', 'Side Collision', 'Rear Collision', '?'), placeholder = "Choose an option")
-    number_of_vehicles_involved = st.sidebar.number_input('Number of Vehicles Involved:')
-    witnesses = st.sidebar.number_input('Number of Witnesses:')
-    injury_claim = st.sidebar.number_input('Total Injury Claim:')
-    property_claim = st.sidebar.number_input('Total Property Claim:')
-    vehicle_claim = st.sidebar.number_input('Total Vehicle Claim:')
-    insured_hobbies = st.sidebar.selectbox('Select Input Option', ("Choose an option:", 'reading', 'exercise', 'paintball', 'bungie-jumping', 'movies', 'golf', 
-                                                                   'camping','kayaking','yachting', 'hiking', 'video-games','skydiving', 'base-jumping', 'board-games',
-                                                                    'polo', 'chess', 'dancing', 'sleeping', 'cross-fit', 'basketball'), placeholder = "Choose an option")
+    #number_of_vehicles_involved = st.sidebar.number_input('Number of Vehicles Involved:')
+    #witnesses = st.sidebar.number_input('Number of Witnesses:')
+    #injury_claim = st.sidebar.number_input('Total Injury Claim:')
+    #property_claim = st.sidebar.number_input('Total Property Claim:')
+    #vehicle_claim = st.sidebar.number_input('Total Vehicle Claim:')
+    #insured_hobbies = st.sidebar.selectbox('Select Input Option', ("Choose an option:", 'reading', 'exercise', 'paintball', 'bungie-jumping', 'movies', 'golf', 
+    #                                                               'camping','kayaking','yachting', 'hiking', 'video-games','skydiving', 'base-jumping', 'board-games',
+    #                                                                'polo', 'chess', 'dancing', 'sleeping', 'cross-fit', 'basketball'), placeholder = "Choose an option")
 
     # Get the number of rows in the DataFrame
     num_rows = len(data_df)
@@ -176,7 +176,16 @@ elif Selector == 'New Customer Search':
     #    Selected_Customer['insured_sex_MALE'] = 1    
 
     data_df['insured_sex'].iloc[random_index] = gender
-    #Selected_Customer['age'] = age
+    data_df['age'].iloc[random_index] = age
+    data_df['incident_severity'].iloc[random_index] = incident_severity
+    data_df['collision_type'].iloc[random_index] = collision_type
+    
+    
+    
+    
+    
+    
+    
     #Selected_Customer['incident_severity'] = incident_severity
     #Selected_Customer['collision_type'] = collision_type
     #Selected_Customer['number_of_vehicles_involved'] = number_of_vehicles_involved
