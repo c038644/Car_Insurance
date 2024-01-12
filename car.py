@@ -181,8 +181,6 @@ elif Selector == 'Policy Quote':
 
         Selected_Customer = cleaned_df.iloc[0].to_frame().T
 
-        
-
         X = cleaned_df.drop(['policy_annual_premium'], axis=1).values
         y = cleaned_df['policy_annual_premium'].values
             
@@ -192,12 +190,7 @@ elif Selector == 'Policy Quote':
 
         clf = GradientBoostingRegressor(random_state=RANDOM_STATE,
                                         criterion=GBC_METRIC,
-                                        verbose=False,
-                                        max_depth=45,
-                                        max_features='sqrt',
-                                        min_samples_leaf=2,
-                                        min_samples_split=2,
-                                        n_estimators=836)
+                                        verbose=False)
         # Best Custom Score: 0.7853282025046155
 
         # Hyperparameter Tuning: {'clf__max_depth': 45, 'clf__max_features': 'sqrt', 'clf__min_samples_leaf': 2, 'clf__min_samples_split': 2, 'clf__n_estimators': 836}
