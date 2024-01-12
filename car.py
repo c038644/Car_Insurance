@@ -177,9 +177,11 @@ elif Selector == 'Policy Quote':
     
     if auto_make != 'Choose an option:':
 
+        cleaned_df = pd.get_dummies(cleaned_df)
+
         Selected_Customer = cleaned_df.iloc[0].to_frame().T
 
-        cleaned_df = pd.get_dummies(cleaned_df)
+        
 
         X = cleaned_df.drop(['policy_annual_premium'], axis=1).values
         y = cleaned_df['policy_annual_premium'].values
