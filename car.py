@@ -52,16 +52,8 @@ def machine_learning(cleaned_df, Selected_Customer):
 
         clf = GradientBoostingClassifier(random_state=RANDOM_STATE,
                                         criterion=GBC_METRIC,
-                                        verbose=False)#,
-        #                                max_depth=45,
-        #                                max_features='sqrt',
-        #                                min_samples_leaf=2,
-        #                                min_samples_split=2,
-        #                                n_estimators=836)
-        # Best Custom Score: 0.7853282025046155
-
-        # Hyperparameter Tuning: {'clf__max_depth': 45, 'clf__max_features': 'sqrt', 'clf__min_samples_leaf': 2, 'clf__min_samples_split': 2, 'clf__n_estimators': 836}
-
+                                        verbose=False)
+        
         score = clf.fit(X_train, y_train).predict(data)
 
         Fraud_risk_test = np.max(clf.predict_proba(data))
@@ -191,20 +183,22 @@ elif Selector == 'Policy Quote':
         clf = GradientBoostingRegressor(random_state=RANDOM_STATE,
                                         criterion=GBC_METRIC,
                                         verbose=False)
-        # Best Custom Score: 0.7853282025046155
-
-        # Hyperparameter Tuning: {'clf__max_depth': 45, 'clf__max_features': 'sqrt', 'clf__min_samples_leaf': 2, 'clf__min_samples_split': 2, 'clf__n_estimators': 836}
 
         score = clf.fit(X_train, y_train).predict(data)   
         st.write(score)
 
 elif Selector == 'New Customer Search':
 
+    cleaned_df = data_df.drop(columns=['incident_state','incident_city', 'incident_hour_of_the_day','property_damage','bodily_injuries','police_report_available','total_claim_amount',
+                                    'auto_model','auto_year','fraud_reported','authorities_contacted','months_as_customer',
+                                    'insured_zip', 'incident_type','insured_education_level','insured_occupation','insured_relationship',
+                                    'policy_state', 'policy_csl', 'policy_deductable', 'umbrella_limit', 'capital-gains', 'capital-loss', 'auto_make'])
+
     # Get the number of rows in the DataFrame
-    num_rows = len(data_df)
+    #num_rows = len(data_df)
 
     # Generate a random index within the range of the number of rows
-    random_index = random.randint(0, num_rows - 1)
+    #0 = random.randint(0, num_rows - 1)
         
     #Create number input boxes
     gender = st.sidebar.selectbox('Gender', ("Choose an option:", 'Female', 'Male'), placeholder = "Choose an option")
@@ -225,22 +219,22 @@ elif Selector == 'New Customer Search':
 
     cleaned_df = data_df
 
-    cleaned_df['insured_sex'].iloc[random_index] = gender
-    cleaned_df['age'].iloc[random_index] = age
-    cleaned_df['incident_severity'].iloc[random_index] = incident_severity
-    cleaned_df['collision_type'].iloc[random_index] = collision_type
-    cleaned_df['number_of_vehicles_involved'].iloc[random_index] = number_of_vehicles_involved
-    cleaned_df['witnesses'].iloc[random_index] = witnesses
-    cleaned_df['injury_claim'].iloc[random_index] = injury_claim
-    cleaned_df['property_claim'].iloc[random_index] = property_claim
-    cleaned_df['vehicle_claim'].iloc[random_index] = vehicle_claim
-    cleaned_df['insured_hobbies'].iloc[random_index] = insured_hobbies
+    cleaned_df['insured_sex'].iloc[0] = gender
+    cleaned_df['age'].iloc[0] = age
+    cleaned_df['incident_severity'].iloc[0] = incident_severity
+    cleaned_df['collision_type'].iloc[0] = collision_type
+    cleaned_df['number_of_vehicles_involved'].iloc[0] = number_of_vehicles_involved
+    cleaned_df['witnesses'].iloc[0] = witnesses
+    cleaned_df['injury_claim'].iloc[0] = injury_claim
+    cleaned_df['property_claim'].iloc[0] = property_claim
+    cleaned_df['vehicle_claim'].iloc[0] = vehicle_claim
+    cleaned_df['insured_hobbies'].iloc[0] = insured_hobbies
     
     if insured_hobbies != 'Choose an option:':
 
         cleaned_df = pd.get_dummies(cleaned_df)
     
-        Selected_Customer = cleaned_df.iloc[random_index].to_frame().T
+        Selected_Customer = cleaned_df.iloc[0].to_frame().T
 
         Selected_Customer['total_claim_amount'] = Selected_Customer['injury_claim'] + Selected_Customer['property_claim'] + Selected_Customer['vehicle_claim']
 
@@ -276,19 +270,5 @@ elif Selector == 'New Customer Search':
 
         fig2.update_layout(paper_bgcolor = "lavender", font = {'color': "darkblue", 'family': "Arial"})
 
-        g2.plotly_chart(fig2, use_container_width=True) 
-
-#gbc = GradientBoostingClassifier(random_state=RANDOM_STATE, **best_params)
-
-#X = np.array(cleaned_df.drop(['fraud_reported', 'policy_number'], axis=1))
-#y = cleaned_df['fraud_reported'].values
-
-#feature_list = list(cleaned_df.columns)
-
-#gbc.fit(X, y);
-
-#explainer = shap.Explainer(gbc)
-#shap_values = explainer(X)
-
-#shap.summary_plot(shap_values, X, feature_list)    
+        g2.plotly_chart(fig2, use_container_width=True)  
     
