@@ -186,7 +186,7 @@ elif Selector == 'Policy Quote':
         score = clf.fit(X_train, y_train).predict(data)
 
         # Format the score to two decimal places
-        formatted_score = round(score, 2) 
+        score = np.round(score, 2) 
         st.write('Your annual car insurance quote is ')  
         st.write(score)
         st.write('pounds')
@@ -268,5 +268,5 @@ elif Selector == 'New Customer Search':
 
         fig2.update_layout(paper_bgcolor = "lavender", font = {'color': "darkblue", 'family': "Arial"})
 
-        g2.plotly_chart(fig2, use_container_width=True) 
+        g2.plotly_chart(fig2, use_container_width=True)   
     
