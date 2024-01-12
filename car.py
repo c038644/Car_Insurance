@@ -146,7 +146,7 @@ elif Selector == 'Policy Quote':
                                     'incident_severity'])
 
     #Create number input boxes
-    gender = st.sidebar.selectbox('Gender', ("Choose an option:", 'Female', 'Male'), placeholder = "Choose an option")
+    gender = st.sidebar.selectbox('Gender:', ("Choose an option:", 'Female', 'Male'), placeholder = "Choose an option")
     age = st.sidebar.number_input('Age:', value=0, step=1, format="%d")
     policy_state = st.sidebar.selectbox('State', ("Choose an option:", 'OH', 'IL', 'IN'), placeholder = "Choose an option")
     policy_csl = st.sidebar.selectbox('CSL', ("Choose an option:", '100/300', '250/500', '500/1000'), placeholder = "Choose an option")
@@ -154,7 +154,7 @@ elif Selector == 'Policy Quote':
     umbrella_limit = st.sidebar.number_input('Number of umbrella_limit:', value=0, step=1, format="%d")
     capital_gains = st.sidebar.number_input('Capital Gains:')
     capital_loss = st.sidebar.number_input('Capital Loss:')
-    auto_make =  st.sidebar.selectbox('Car Manufacturer', ("Choose an option:", 'Saab', 'Dodge','Suburu','Nissan','Chevrolet','Ford','BMW', 'Toyota','Audi','Accura','Volkswagen','Jeep','Mercedes','Honda'), placeholder = "Choose an option")
+    auto_make =  st.sidebar.selectbox('Car Manufacturer:', ("Choose an option:", 'Saab', 'Dodge','Suburu','Nissan','Chevrolet','Ford','BMW', 'Toyota','Audi','Accura','Volkswagen','Jeep','Mercedes','Honda'), placeholder = "Choose an option")
 
     cleaned_df['insured_sex'].iloc[0] = gender
     cleaned_df['age'].iloc[0] = age
@@ -185,11 +185,7 @@ elif Selector == 'Policy Quote':
 
         score = clf.fit(X_train, y_train).predict(data)
 
-        # Format the score to two decimal places
-        score = np.round(score, 2) 
-        st.write('Your annual car insurance quote is ')  
-        st.write(score)
-        st.write('pounds')
+        st.write(f'Your annual car insurance quote is {score:.2f} pounds')
 
 elif Selector == 'New Customer Search':
 
@@ -199,16 +195,16 @@ elif Selector == 'New Customer Search':
                                     'policy_state', 'policy_csl', 'policy_deductable', 'umbrella_limit', 'capital-gains', 'capital-loss', 'auto_make'])
 
     #Create number input boxes
-    gender = st.sidebar.selectbox('Gender', ("Choose an option:", 'Female', 'Male'), placeholder = "Choose an option")
+    gender = st.sidebar.selectbox('Gender:', ("Choose an option:", 'Female', 'Male'), placeholder = "Choose an option")
     age = st.sidebar.number_input('Age:', value=0, step=1, format="%d")
-    incident_severity = st.sidebar.selectbox('Incident Severity', ("Choose an option:", 'Trivial Damage', 'Minor Damage', 'Major Damage', 'Total Loss'), placeholder = "Choose an option")
-    collision_type = st.sidebar.selectbox('Collision Type', ("Choose an option:", 'Front Collision', 'Side Collision', 'Rear Collision', 'Other'), placeholder = "Choose an option")
+    incident_severity = st.sidebar.selectbox('Incident Severity:', ("Choose an option:", 'Trivial Damage', 'Minor Damage', 'Major Damage', 'Total Loss'), placeholder = "Choose an option")
+    collision_type = st.sidebar.selectbox('Collision Type:', ("Choose an option:", 'Front Collision', 'Side Collision', 'Rear Collision', 'Other'), placeholder = "Choose an option")
     number_of_vehicles_involved = st.sidebar.number_input('Number of Vehicles Involved:', value=0, step=1, format="%d")
     witnesses = st.sidebar.number_input('Number of Witnesses:', value=0, step=1, format="%d")
     injury_claim = st.sidebar.number_input('Total Injury Claim:')
     property_claim = st.sidebar.number_input('Total Property Claim:')
     vehicle_claim = st.sidebar.number_input('Total Vehicle Claim:')
-    insured_hobbies = st.sidebar.selectbox('Insured Hobbies', ("Choose an option:", 'reading', 'exercise', 'paintball', 'bungie-jumping', 'movies', 'golf', 
+    insured_hobbies = st.sidebar.selectbox('Insured Hobbies:', ("Choose an option:", 'reading', 'exercise', 'paintball', 'bungie-jumping', 'movies', 'golf', 
                                                                    'camping','kayaking','yachting', 'hiking', 'video-games','skydiving', 'base-jumping', 'board-games',
                                                                     'polo', 'chess', 'dancing', 'sleeping', 'cross-fit', 'basketball'), placeholder = "Choose an option")
 
@@ -268,5 +264,5 @@ elif Selector == 'New Customer Search':
 
         fig2.update_layout(paper_bgcolor = "lavender", font = {'color': "darkblue", 'family': "Arial"})
 
-        g2.plotly_chart(fig2, use_container_width=True)   
+        g2.plotly_chart(fig2, use_container_width=True)    
     
