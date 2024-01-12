@@ -23,7 +23,7 @@ t1, t2 = st.columns((0.07,1))
 t2.title("Car Insurance Fraud Calculator")
 t2.markdown("Powered with Machine Learning")
 
-Selector = st.sidebar.selectbox('Select Input Option', ("Choose an option:", 'Database Search', 'New Customer Search'), placeholder = "Choose an option")
+Selector = st.sidebar.selectbox('Select Input Option', ("Choose an option:", 'Database Search', 'Policy Quote','New Customer Search'), placeholder = "Choose an option")
 
 Customer_ID = pd.read_csv("files/policy_number.csv")
 Customer_ID = Customer_ID.drop(columns=['Unnamed: 0'])
@@ -146,10 +146,64 @@ if Selector == 'Database Search':
 
     g2.plotly_chart(fig2, use_container_width=True) 
 
+elif Selector == 'Policy Quote':
+
+    cleaned_df = data_df.drop(columns=['incident_state','incident_city','incident_location','incident_hour_of_the_day','number_of_vehicles_involved','property_damage','bodily_injuries','witnesses','police_report_available','total_claim_amount','injury_claim','property_claim',
+                                    'vehicle_claim','auto_model','auto_year','fraud_reported','authorities_contacted','months_as_customer','collision_type',
+                                    'insured_zip', 'incident_type','insured_education_level','insured_occupation','insured_hobbies','insured_relationship',
+                                    'incident_date', 'incident_severity'])
+
+    #Create number input boxes
+    gender = st.sidebar.selectbox('Gender', ("Choose an option:", 'Female', 'Male'), placeholder = "Choose an option")
+    age = st.sidebar.number_input('Age:', value=0, step=1, format="%d")
+    policy_state = st.sidebar.selectbox('State', ("Choose an option:", 'OH', 'IL', 'IN'), placeholder = "Choose an option")
+    policy_csl = st.sidebar.selectbox('CSL', ("Choose an option:", '100/300', '250/500', '500/1000'), placeholder = "Choose an option")
+    policy_deductable = st.sidebar.number_input('policy_deductable:', value=0, step=1, format="%d")
+    umbrella_limit = st.sidebar.number_input('Number of umbrella_limit:', value=0, step=1, format="%d")
+    capital_gains = st.sidebar.number_input('Capital Gains:')
+    capital_loss = st.sidebar.number_input('Capital Loss:')
+    auto_make =  st.sidebar.selectbox('Car Manufacturer', ("Choose an option:", 'Saab', 'Dodge','Suburu','Nissan','Chevrolet','Ford','BMW', 'Toyota','Audi','Accura','Volkswagen','Jeep','Mercedes','Honda'), placeholder = "Choose an option")
+
+    cleaned_df['insured_sex'].iloc[0] = gender
+    cleaned_df['age'].iloc[0] = age
+    cleaned_df['policy_state'].iloc[0] = policy_state
+    cleaned_df['policy_csl'].iloc[0] = policy_csl
+    cleaned_df['policy_deductable'].iloc[0] = policy_deductable
+    cleaned_df['umbrella_limit'].iloc[0] = umbrella_limit
+    cleaned_df['capital-gains'].iloc[0] = capital_gains
+    cleaned_df['capital-loss'].iloc[0] = capital_loss
+    cleaned_df['auto_make'].iloc[0] = auto_make
+    
+    if auto_make != 'Choose an option:':
+
+        Selected_Customer = cleaned_df.iloc[0].to_frame().T
+
+        cleaned_df = pd.get_dummies(cleaned_df)
+
+        X = cleaned_df.drop(['policy_annual_premium'], axis=1).values
+        y = cleaned_df['policy_annual_premium'].values
+            
+        data = Selected_Customer.drop(['policy_annual_premium'], axis=1).values
+
+        X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
+
+        clf = GradientBoostingClassifier(random_state=RANDOM_STATE,
+                                        criterion=GBC_METRIC,
+                                        verbose=False,
+                                        max_depth=45,
+                                        max_features='sqrt',
+                                        min_samples_leaf=2,
+                                        min_samples_split=2,
+                                        n_estimators=836)
+        # Best Custom Score: 0.7853282025046155
+
+        # Hyperparameter Tuning: {'clf__max_depth': 45, 'clf__max_features': 'sqrt', 'clf__min_samples_leaf': 2, 'clf__min_samples_split': 2, 'clf__n_estimators': 836}
+
+        score = clf.fit(X_train, y_train).predict(data)   
+        st.write(score)
+
 elif Selector == 'New Customer Search':
 
-    data_df_backup = data_df.copy()
-    
     # Get the number of rows in the DataFrame
     num_rows = len(data_df)
 
@@ -173,20 +227,22 @@ elif Selector == 'New Customer Search':
     if collision_type == 'Other':
         collision_type = '?'
 
-    data_df['insured_sex'].iloc[random_index] = gender
-    data_df['age'].iloc[random_index] = age
-    data_df['incident_severity'].iloc[random_index] = incident_severity
-    data_df['collision_type'].iloc[random_index] = collision_type
-    data_df['number_of_vehicles_involved'].iloc[random_index] = number_of_vehicles_involved
-    data_df['witnesses'].iloc[random_index] = witnesses
-    data_df['injury_claim'].iloc[random_index] = injury_claim
-    data_df['property_claim'].iloc[random_index] = property_claim
-    data_df['vehicle_claim'].iloc[random_index] = vehicle_claim
-    data_df['insured_hobbies'].iloc[random_index] = insured_hobbies
+    cleaned_df = data_df
+
+    cleaned_df['insured_sex'].iloc[random_index] = gender
+    cleaned_df['age'].iloc[random_index] = age
+    cleaned_df['incident_severity'].iloc[random_index] = incident_severity
+    cleaned_df['collision_type'].iloc[random_index] = collision_type
+    cleaned_df['number_of_vehicles_involved'].iloc[random_index] = number_of_vehicles_involved
+    cleaned_df['witnesses'].iloc[random_index] = witnesses
+    cleaned_df['injury_claim'].iloc[random_index] = injury_claim
+    cleaned_df['property_claim'].iloc[random_index] = property_claim
+    cleaned_df['vehicle_claim'].iloc[random_index] = vehicle_claim
+    cleaned_df['insured_hobbies'].iloc[random_index] = insured_hobbies
     
     if insured_hobbies != 'Choose an option:':
 
-        cleaned_df = pd.get_dummies(data_df)
+        cleaned_df = pd.get_dummies(cleaned_df)
     
         Selected_Customer = cleaned_df.iloc[random_index].to_frame().T
 
@@ -226,4 +282,17 @@ elif Selector == 'New Customer Search':
 
         g2.plotly_chart(fig2, use_container_width=True) 
 
+#gbc = GradientBoostingClassifier(random_state=RANDOM_STATE, **best_params)
+
+#X = np.array(cleaned_df.drop(['fraud_reported', 'policy_number'], axis=1))
+#y = cleaned_df['fraud_reported'].values
+
+#feature_list = list(cleaned_df.columns)
+
+#gbc.fit(X, y);
+
+#explainer = shap.Explainer(gbc)
+#shap_values = explainer(X)
+
+#shap.summary_plot(shap_values, X, feature_list)    
     
