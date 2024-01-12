@@ -6,6 +6,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.ensemble import GradientBoostingRegressor
 import random
 
 #NUMBER_KFOLDS = 2 
@@ -148,7 +149,7 @@ if Selector == 'Database Search':
 
 elif Selector == 'Policy Quote':
 
-    cleaned_df = data_df.drop(columns=['incident_state','incident_city','incident_hour_of_the_day','number_of_vehicles_involved','property_damage','bodily_injuries','witnesses','police_report_available','total_claim_amount','injury_claim','property_claim',
+    cleaned_df = data_df.drop(columns=['incident_state','incident_city', 'incident_hour_of_the_day','number_of_vehicles_involved','property_damage','bodily_injuries','witnesses','police_report_available','total_claim_amount','injury_claim','property_claim',
                                     'vehicle_claim','auto_model','auto_year','fraud_reported','authorities_contacted','months_as_customer','collision_type',
                                     'insured_zip', 'incident_type','insured_education_level','insured_occupation','insured_hobbies','insured_relationship',
                                     'incident_severity'])
@@ -187,7 +188,7 @@ elif Selector == 'Policy Quote':
 
         X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
 
-        clf = GradientBoostingClassifier(random_state=RANDOM_STATE,
+        clf = GradientBoostingRegressor(random_state=RANDOM_STATE,
                                         criterion=GBC_METRIC,
                                         verbose=False,
                                         max_depth=45,
@@ -281,18 +282,4 @@ elif Selector == 'New Customer Search':
         fig2.update_layout(paper_bgcolor = "lavender", font = {'color': "darkblue", 'family': "Arial"})
 
         g2.plotly_chart(fig2, use_container_width=True) 
-
-#gbc = GradientBoostingClassifier(random_state=RANDOM_STATE, **best_params)
-
-#X = np.array(cleaned_df.drop(['fraud_reported', 'policy_number'], axis=1))
-#y = cleaned_df['fraud_reported'].values
-
-#feature_list = list(cleaned_df.columns)
-
-#gbc.fit(X, y);
-
-#explainer = shap.Explainer(gbc)
-#shap_values = explainer(X)
-
-#shap.summary_plot(shap_values, X, feature_list)    
     
