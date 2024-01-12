@@ -57,7 +57,6 @@ def machine_learning(cleaned_df, Selected_Customer):
         score = clf.fit(X_train, y_train).predict(data)
 
         Fraud_risk_test = np.max(clf.predict_proba(data))
-        st.write(Fraud_risk_test)
 
         if score==1:
             Fraud_risk_score=Fraud_risk_test
@@ -184,8 +183,13 @@ elif Selector == 'Policy Quote':
                                         criterion=GBC_METRIC,
                                         verbose=False)
 
-        score = clf.fit(X_train, y_train).predict(data)   
+        score = clf.fit(X_train, y_train).predict(data)
+
+        # Format the score to two decimal places
+        formatted_score = round(score, 2) 
+        st.write('Your annual car insurance quote is ')  
         st.write(score)
+        st.write('pounds')
 
 elif Selector == 'New Customer Search':
 
@@ -194,12 +198,6 @@ elif Selector == 'New Customer Search':
                                     'insured_zip', 'incident_type','insured_education_level','insured_occupation','insured_relationship',
                                     'policy_state', 'policy_csl', 'policy_deductable', 'umbrella_limit', 'capital-gains', 'capital-loss', 'auto_make'])
 
-    # Get the number of rows in the DataFrame
-    #num_rows = len(data_df)
-
-    # Generate a random index within the range of the number of rows
-    #0 = random.randint(0, num_rows - 1)
-        
     #Create number input boxes
     gender = st.sidebar.selectbox('Gender', ("Choose an option:", 'Female', 'Male'), placeholder = "Choose an option")
     age = st.sidebar.number_input('Age:', value=0, step=1, format="%d")
@@ -270,5 +268,5 @@ elif Selector == 'New Customer Search':
 
         fig2.update_layout(paper_bgcolor = "lavender", font = {'color': "darkblue", 'family': "Arial"})
 
-        g2.plotly_chart(fig2, use_container_width=True)  
+        g2.plotly_chart(fig2, use_container_width=True) 
     
