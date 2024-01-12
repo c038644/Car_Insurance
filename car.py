@@ -219,22 +219,22 @@ elif Selector == 'New Customer Search':
 
     cleaned_df = data_df
 
-    cleaned_df['insured_sex'].iloc[0] = gender
-    cleaned_df['age'].iloc[0] = age
-    cleaned_df['incident_severity'].iloc[0] = incident_severity
-    cleaned_df['collision_type'].iloc[0] = collision_type
-    cleaned_df['number_of_vehicles_involved'].iloc[0] = number_of_vehicles_involved
-    cleaned_df['witnesses'].iloc[0] = witnesses
-    cleaned_df['injury_claim'].iloc[0] = injury_claim
-    cleaned_df['property_claim'].iloc[0] = property_claim
-    cleaned_df['vehicle_claim'].iloc[0] = vehicle_claim
-    cleaned_df['insured_hobbies'].iloc[0] = insured_hobbies
+    cleaned_df['insured_sex'].iloc[531] = gender
+    cleaned_df['age'].iloc[531] = age
+    cleaned_df['incident_severity'].iloc[531] = incident_severity
+    cleaned_df['collision_type'].iloc[531] = collision_type
+    cleaned_df['number_of_vehicles_involved'].iloc[531] = number_of_vehicles_involved
+    cleaned_df['witnesses'].iloc[531] = witnesses
+    cleaned_df['injury_claim'].iloc[531] = injury_claim
+    cleaned_df['property_claim'].iloc[531] = property_claim
+    cleaned_df['vehicle_claim'].iloc[531] = vehicle_claim
+    cleaned_df['insured_hobbies'].iloc[531] = insured_hobbies
     
     if insured_hobbies != 'Choose an option:':
 
         cleaned_df = pd.get_dummies(cleaned_df)
     
-        Selected_Customer = cleaned_df.iloc[0].to_frame().T
+        Selected_Customer = cleaned_df.iloc[531].to_frame().T
 
         Selected_Customer['total_claim_amount'] = Selected_Customer['injury_claim'] + Selected_Customer['property_claim'] + Selected_Customer['vehicle_claim']
 
