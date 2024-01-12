@@ -52,12 +52,12 @@ def machine_learning(cleaned_df, Selected_Customer):
 
         clf = GradientBoostingClassifier(random_state=RANDOM_STATE,
                                         criterion=GBC_METRIC,
-                                        verbose=False,
-                                        max_depth=45,
-                                        max_features='sqrt',
-                                        min_samples_leaf=2,
-                                        min_samples_split=2,
-                                        n_estimators=836)
+                                        verbose=False)#,
+        #                                max_depth=45,
+        #                                max_features='sqrt',
+        #                                min_samples_leaf=2,
+        #                                min_samples_split=2,
+        #                                n_estimators=836)
         # Best Custom Score: 0.7853282025046155
 
         # Hyperparameter Tuning: {'clf__max_depth': 45, 'clf__max_features': 'sqrt', 'clf__min_samples_leaf': 2, 'clf__min_samples_split': 2, 'clf__n_estimators': 836}
@@ -277,4 +277,18 @@ elif Selector == 'New Customer Search':
         fig2.update_layout(paper_bgcolor = "lavender", font = {'color': "darkblue", 'family': "Arial"})
 
         g2.plotly_chart(fig2, use_container_width=True) 
+
+#gbc = GradientBoostingClassifier(random_state=RANDOM_STATE, **best_params)
+
+#X = np.array(cleaned_df.drop(['fraud_reported', 'policy_number'], axis=1))
+#y = cleaned_df['fraud_reported'].values
+
+#feature_list = list(cleaned_df.columns)
+
+#gbc.fit(X, y);
+
+#explainer = shap.Explainer(gbc)
+#shap_values = explainer(X)
+
+#shap.summary_plot(shap_values, X, feature_list)    
     
