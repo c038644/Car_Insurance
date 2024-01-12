@@ -151,7 +151,7 @@ elif Selector == 'Policy Quote':
     cleaned_df = data_df.drop(columns=['incident_state','incident_city','incident_location','incident_hour_of_the_day','number_of_vehicles_involved','property_damage','bodily_injuries','witnesses','police_report_available','total_claim_amount','injury_claim','property_claim',
                                     'vehicle_claim','auto_model','auto_year','fraud_reported','authorities_contacted','months_as_customer','collision_type',
                                     'insured_zip', 'incident_type','insured_education_level','insured_occupation','insured_hobbies','insured_relationship',
-                                    'incident_date', 'incident_severity'])
+                                    'incident_severity'])
 
     #Create number input boxes
     gender = st.sidebar.selectbox('Gender', ("Choose an option:", 'Female', 'Male'), placeholder = "Choose an option")
