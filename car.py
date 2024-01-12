@@ -183,11 +183,14 @@ elif Selector == 'Policy Quote':
                                         criterion=GBC_METRIC,
                                         verbose=False)
 
-        score = clf.fit(X_train, y_train).predict(data)
+        score = clf.fit(X_train, y_train).predict(data)[0]  # Assuming the first prediction is the one you want
 
-        score = np.round(score, 2)
-
+        # Display the annual car insurance quote using f-string notation
         st.write(f'Your annual car insurance quote is {score:.2f} pounds')
+
+        #score = np.round(score, 2)
+
+        #st.write(f'Your annual car insurance quote is {score:.2f} pounds')
 
 elif Selector == 'New Customer Search':
 
@@ -266,5 +269,5 @@ elif Selector == 'New Customer Search':
 
         fig2.update_layout(paper_bgcolor = "lavender", font = {'color': "darkblue", 'family': "Arial"})
 
-        g2.plotly_chart(fig2, use_container_width=True)      
+        g2.plotly_chart(fig2, use_container_width=True)     
     
