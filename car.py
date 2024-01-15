@@ -41,12 +41,14 @@ def machine_learning(cleaned_df, Selected_Customer):
 
     with st.spinner('Updating Report...'):
 
-        X = cleaned_df.drop(['fraud_reported', 'policy_number'], axis=1).values
+        X = cleaned_df.drop(['fraud_reported', 'policy_number'], axis=1)
         y = cleaned_df['fraud_reported'].values
             
         data = Selected_Customer.drop(['fraud_reported', 'policy_number'], axis=1).values
 
         feature_list = list(X.columns)
+
+        X = X.values
 
         X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
 
@@ -172,10 +174,12 @@ elif Selector == 'Policy Quote':
 
         Selected_Customer = cleaned_df.iloc[0].to_frame().T
 
-        X = cleaned_df.drop(['policy_annual_premium', 'policy_number'], axis=1).values
+        X = cleaned_df.drop(['policy_annual_premium', 'policy_number'], axis=1)
         y = cleaned_df['policy_annual_premium'].values
 
         feature_list = list(X.columns)
+
+        X = X.values
             
         data = Selected_Customer.drop(['policy_annual_premium', 'policy_number'], axis=1).values
 
