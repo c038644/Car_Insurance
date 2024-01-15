@@ -41,12 +41,12 @@ def machine_learning(cleaned_df, Selected_Customer):
 
     with st.spinner('Updating Report...'):
 
-        feature_list = list(cleaned_df.columns)
-
         X = cleaned_df.drop(['fraud_reported', 'policy_number'], axis=1).values
         y = cleaned_df['fraud_reported'].values
             
         data = Selected_Customer.drop(['fraud_reported', 'policy_number'], axis=1).values
+
+        feature_list = list(cleaned_df.columns)
 
         X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
 
@@ -126,13 +126,13 @@ if Selector == 'Database Search':
                 'borderwidth': 2,
                 'bordercolor': "gray",
                 'steps': [
-                    {'range': [0.88, 1], 'color': 'red'},
-                    {'range': [0.68, 0.88], 'color': 'orange'},
-                    {'range': [0, 0.68], 'color': 'green'}],
+                    {'range': [0.82, 1], 'color': 'red'},
+                    {'range': [0.62, 0.82], 'color': 'orange'},
+                    {'range': [0, 0.62], 'color': 'green'}],
                 'threshold': {
                     'line': {'color': "blue", 'width': 4},
                     'thickness': 0.75,
-                    'value': 0.31}}))
+                    'value': 0.72}}))
 
     fig2.update_layout(paper_bgcolor = "lavender", font = {'color': "darkblue", 'family': "Arial"})
 
@@ -170,12 +170,12 @@ elif Selector == 'Policy Quote':
 
         cleaned_df = pd.get_dummies(cleaned_df)
 
-        feature_list = list(cleaned_df.columns)
-
         Selected_Customer = cleaned_df.iloc[0].to_frame().T
 
         X = cleaned_df.drop(['policy_annual_premium', 'policy_number'], axis=1).values
         y = cleaned_df['policy_annual_premium'].values
+
+        feature_list = list(cleaned_df.columns)
             
         data = Selected_Customer.drop(['policy_annual_premium', 'policy_number'], axis=1).values
 
