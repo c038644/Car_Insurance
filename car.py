@@ -43,7 +43,7 @@ def machine_learning(cleaned_df, Selected_Customer):
 
         feature_list = list(cleaned_df.columns)
 
-        X = cleaned_df.drop(['fraud_reported'], axis=1).values
+        X = cleaned_df.drop(['fraud_reported', 'policy_number'], axis=1).values
         y = cleaned_df['fraud_reported'].values
             
         data = Selected_Customer.drop(['fraud_reported'], axis=1).values
@@ -174,7 +174,7 @@ elif Selector == 'Policy Quote':
 
         Selected_Customer = cleaned_df.iloc[0].to_frame().T
 
-        X = cleaned_df.drop(['policy_annual_premium'], axis=1).values
+        X = cleaned_df.drop(['policy_annual_premium', 'policy_number'], axis=1).values
         y = cleaned_df['policy_annual_premium'].values
             
         data = Selected_Customer.drop(['policy_annual_premium'], axis=1).values
@@ -200,7 +200,7 @@ elif Selector == 'Policy Quote':
         feature_importances = sorted(feature_importances, key = lambda x: x[1], reverse = True)
 
         #Ten most important features
-        ten_most_important = feature_importances[0:10]
+        ten_most_important = feature_importances[0:8]
 
         ten_most_important_df = pd.DataFrame(ten_most_important)
 
@@ -212,5 +212,5 @@ elif Selector == 'Policy Quote':
             
         fig.update_layout(title_text="Local Features Graph",title_x=0,margin= dict(l=0,r=10,b=10,t=30), yaxis_title=None, xaxis_title=None)
             
-        g1.plotly_chart(fig, use_container_width=True)  
+        g1.plotly_chart(fig, use_container_width=True)
     
