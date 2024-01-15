@@ -177,7 +177,7 @@ elif Selector == 'Policy Quote':
         X = cleaned_df.drop(['policy_annual_premium', 'policy_number'], axis=1).values
         y = cleaned_df['policy_annual_premium'].values
             
-        data = Selected_Customer.drop(['policy_annual_premium'], axis=1).values
+        data = Selected_Customer.drop(['policy_annual_premium', 'policy_number'], axis=1).values
 
         X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
 
