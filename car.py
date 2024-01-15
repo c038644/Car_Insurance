@@ -46,7 +46,7 @@ def machine_learning(cleaned_df, Selected_Customer):
             
         data = Selected_Customer.drop(['fraud_reported', 'policy_number'], axis=1).values
 
-        feature_list = list(cleaned_df.columns)
+        feature_list = list(X.columns)
 
         X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
 
@@ -175,7 +175,7 @@ elif Selector == 'Policy Quote':
         X = cleaned_df.drop(['policy_annual_premium', 'policy_number'], axis=1).values
         y = cleaned_df['policy_annual_premium'].values
 
-        feature_list = list(cleaned_df.columns)
+        feature_list = list(X.columns)
             
         data = Selected_Customer.drop(['policy_annual_premium', 'policy_number'], axis=1).values
 
