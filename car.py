@@ -24,7 +24,7 @@ t1, t2 = st.columns((0.07,1))
 t2.title("Car Insurance Fraud Calculator")
 t2.markdown("Powered with Machine Learning")
 
-Selector = st.sidebar.selectbox('Select Input Option', ("Choose an option:", 'Database Search', 'Policy Quote','New Customer Search'), placeholder = "Choose an option")
+Selector = st.sidebar.selectbox('Select Input Option', ("Choose an option:", 'Database Search', 'Policy Quote'), placeholder = "Choose an option")
 
 Customer_ID = pd.read_csv("files/policy_number.csv")
 Customer_ID = Customer_ID.drop(columns=['Unnamed: 0'])
@@ -170,6 +170,8 @@ elif Selector == 'Policy Quote':
 
         cleaned_df = pd.get_dummies(cleaned_df)
 
+        feature_list = list(cleaned_df.columns)
+
         Selected_Customer = cleaned_df.iloc[0].to_frame().T
 
         X = cleaned_df.drop(['policy_annual_premium'], axis=1).values
@@ -188,56 +190,21 @@ elif Selector == 'Policy Quote':
         # Display the annual car insurance quote using f-string notation
         st.write(f'Your annual car insurance quote is {score:.2f} pounds')
 
-        #score = np.round(score, 2)
+        # Get numerical feature importances
+        importances = list(clf.feature_importances_)
 
-        #st.write(f'Your annual car insurance quote is {score:.2f} pounds')
+        # List of tuples with variable and importance
+        feature_importances = [(feature, round(importance, 2)) for feature, importance in zip(feature_list, importances)]
 
-elif Selector == 'New Customer Search':
+        # Sort the feature importances by most important first
+        feature_importances = sorted(feature_importances, key = lambda x: x[1], reverse = True)
 
-    cleaned_df = data_df.drop(columns=['incident_state','incident_city', 'incident_hour_of_the_day','property_damage','bodily_injuries','police_report_available','total_claim_amount',
-                                    'auto_model','auto_year','fraud_reported','authorities_contacted','months_as_customer',
-                                    'insured_zip', 'incident_type','insured_education_level','insured_occupation','insured_relationship',
-                                    'policy_state', 'policy_csl', 'policy_deductable', 'umbrella_limit', 'capital-gains', 'capital-loss', 'auto_make'])
+        #Ten most important features
+        ten_most_important = feature_importances[0:10]
 
-    #Create number input boxes
-    gender = st.sidebar.selectbox('Gender:', ("Choose an option:", 'Female', 'Male'), placeholder = "Choose an option")
-    age = st.sidebar.number_input('Age:', value=0, step=1, format="%d")
-    incident_severity = st.sidebar.selectbox('Incident Severity:', ("Choose an option:", 'Trivial Damage', 'Minor Damage', 'Major Damage', 'Total Loss'), placeholder = "Choose an option")
-    collision_type = st.sidebar.selectbox('Collision Type:', ("Choose an option:", 'Front Collision', 'Side Collision', 'Rear Collision', 'Other'), placeholder = "Choose an option")
-    number_of_vehicles_involved = st.sidebar.number_input('Number of Vehicles Involved:', value=0, step=1, format="%d")
-    witnesses = st.sidebar.number_input('Number of Witnesses:', value=0, step=1, format="%d")
-    injury_claim = st.sidebar.number_input('Total Injury Claim:')
-    property_claim = st.sidebar.number_input('Total Property Claim:')
-    vehicle_claim = st.sidebar.number_input('Total Vehicle Claim:')
-    insured_hobbies = st.sidebar.selectbox('Insured Hobbies:', ("Choose an option:", 'reading', 'exercise', 'paintball', 'bungie-jumping', 'movies', 'golf', 
-                                                                   'camping','kayaking','yachting', 'hiking', 'video-games','skydiving', 'base-jumping', 'board-games',
-                                                                    'polo', 'chess', 'dancing', 'sleeping', 'cross-fit', 'basketball'), placeholder = "Choose an option")
+        ten_most_important_df = pd.DataFrame(ten_most_important)
 
-    if collision_type == 'Other':
-        collision_type = '?'
-
-    cleaned_df = data_df
-
-    cleaned_df['insured_sex'].iloc[531] = gender
-    cleaned_df['age'].iloc[531] = age
-    cleaned_df['incident_severity'].iloc[531] = incident_severity
-    cleaned_df['collision_type'].iloc[531] = collision_type
-    cleaned_df['number_of_vehicles_involved'].iloc[531] = number_of_vehicles_involved
-    cleaned_df['witnesses'].iloc[531] = witnesses
-    cleaned_df['injury_claim'].iloc[531] = injury_claim
-    cleaned_df['property_claim'].iloc[531] = property_claim
-    cleaned_df['vehicle_claim'].iloc[531] = vehicle_claim
-    cleaned_df['insured_hobbies'].iloc[531] = insured_hobbies
-    
-    if insured_hobbies != 'Choose an option:':
-
-        cleaned_df = pd.get_dummies(cleaned_df)
-    
-        Selected_Customer = cleaned_df.iloc[531].to_frame().T
-
-        Selected_Customer['total_claim_amount'] = Selected_Customer['injury_claim'] + Selected_Customer['property_claim'] + Selected_Customer['vehicle_claim']
-
-        ten_most_important_df = machine_learning(cleaned_df, Selected_Customer)
+        ten_most_important_df.columns = ['Feature', 'Importance']
 
         g1, g2 = st.columns((1,1))
 
@@ -245,29 +212,5 @@ elif Selector == 'New Customer Search':
             
         fig.update_layout(title_text="Local Features Graph",title_x=0,margin= dict(l=0,r=10,b=10,t=30), yaxis_title=None, xaxis_title=None)
             
-        g1.plotly_chart(fig, use_container_width=True)
-
-        fig2 = go.Figure(go.Indicator(
-                mode = "gauge+number+delta",
-                value = ten_most_important_df.iat[0,2],
-                domain = {'x': [0, 1], 'y': [0, 1]},
-                title = {'text': "Fraud Risk Rating", 'font': {'size': 24}},
-                gauge = {
-                    'axis': {'range': [0, 1], 'tickwidth': 1, 'tickcolor': "darkblue"},
-                    'bar': {'color': "black"},
-                    'bgcolor': "white",
-                    'borderwidth': 2,
-                    'bordercolor': "gray",
-                    'steps': [
-                        {'range': [0.88, 1], 'color': 'red'},
-                        {'range': [0.68, 0.88], 'color': 'orange'},
-                        {'range': [0, 0.68], 'color': 'green'}],
-                    'threshold': {
-                        'line': {'color': "blue", 'width': 4},
-                        'thickness': 0.75,
-                        'value': 0.31}}))
-
-        fig2.update_layout(paper_bgcolor = "lavender", font = {'color': "darkblue", 'family': "Arial"})
-
-        g2.plotly_chart(fig2, use_container_width=True)     
+        g1.plotly_chart(fig, use_container_width=True)  
     
