@@ -97,8 +97,8 @@ def machine_learning(cleaned_df, Selected_Customer):
 
 if Selector == 'Database Search':
 
-    t1, t2 = st.columns((0.07,1)) 
-    t2.title('Car Insurance Fraud Database Search')
+    #t1, t2 = st.columns((0.07,1)) 
+    #t2.title('Car Insurance Fraud Database Search')
 
     Customer = st.selectbox('Select Customer', Customer_ID, help = 'Filter report to show only one customer')
     cleaned_df = pd.get_dummies(data_df)
@@ -145,9 +145,9 @@ if Selector == 'Database Search':
 
 elif Selector == 'Policy Quote':
 
-    t1, t2 = st.columns((0.07,1)) 
+    #t1, t2 = st.columns((0.07,1)) 
 
-    t2.title("Car Insurance Policy Quote")
+    #t2.title("Car Insurance Policy Quote")
 
     cleaned_df = data_df.drop(columns=['incident_state','incident_city', 'incident_hour_of_the_day','number_of_vehicles_involved','property_damage','bodily_injuries','witnesses','police_report_available','total_claim_amount','injury_claim','property_claim',
                                     'vehicle_claim','auto_model','auto_year','fraud_reported','authorities_contacted','months_as_customer','collision_type',
